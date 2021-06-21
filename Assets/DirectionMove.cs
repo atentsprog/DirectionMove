@@ -12,9 +12,13 @@ public class DirectionMove : MonoBehaviour
         lastMoveDirection = transform.forward;
 
         //aimationLength 초기화.
+        foreach (var animationClip in animator.runtimeAnimatorController.animationClips)
+        {
+            aimationLength[animationClip.name] = animationClip.length; // aimationLength["Attack"] = 1.4;
+        }
     }
 
-    Dictionary<string, float> aimationLength = null;
+    Dictionary<string, float> aimationLength = new Dictionary<string, float>();
 
     void Update()
     {
