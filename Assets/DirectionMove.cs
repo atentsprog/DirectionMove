@@ -35,7 +35,7 @@ public class DirectionMove : MonoBehaviour
             StartCoroutine(AttackCo());
         }
 
-        if (state != StateType.Attack)
+        if (State != StateType.Attack)
         {
             move = MoveAndIdle(move);
         }
@@ -48,13 +48,13 @@ public class DirectionMove : MonoBehaviour
     public float attackAnimationWaitTime = 0.9f;
     IEnumerator AttackCo()
     {
-        state = StateType.Attack;
-        animator.Play("Attack");
+        State = StateType.Attack;
+
         yield return null;
         float attackAnimationTime = GetCurrentAimationTime();
         attackAnimationTime = attackAnimationTime * attackAnimationWaitTime;
         yield return new WaitForSeconds(attackAnimationTime);
-        state = StateType.None;
+        State = StateType.None;
     }
 
     private float GetCurrentAimationTime()
@@ -84,14 +84,12 @@ public class DirectionMove : MonoBehaviour
 
             //transform.forward = move; // 이코드 있으면 작동안함.
             lastMoveDirection = move;
-            state = StateType.Run;
-            animator.Play("Run");
+            State = StateType.Run;
         }
         else
         {
             move = lastMoveDirection;
-            state = StateType.Idle;
-            animator.Play("Idle");
+            State = StateType.Idle;
         };
         return move;
     }
@@ -99,7 +97,24 @@ public class DirectionMove : MonoBehaviour
     public float roateLerp = 0.5f;
     public Vector3 lastMoveDirection;
 
+    public StateType State
+    {
+        get { return state; }
+        set {
+            // 쉬는 시간에 추가함.
+            if (state == value) 
+                return;
+            // 쉬는 시간에 추가함.끝
+
+            state = value;
+
+            var animationInfo = blendingInfos.Find(x => x.state == state);
+            if(animationInfo != null)
+                animator.CrossFade(animationInfo.clipName, animationInfo.time);
+        }
+    }   
     public StateType state = StateType.Idle;
+
     public enum StateType
     {
         None,  // 아무것도 안하는 상태, 어택이 끝나면 되는 상태
@@ -107,5 +122,16 @@ public class DirectionMove : MonoBehaviour
         Run, 
         Jump, 
         Attack,
+    }
+
+
+    public List<BlendingInfo> blendingInfos;
+
+    [System.Serializable] // 인스펙터에 아래 클래스를 노출 시키자.
+    public class BlendingInfo
+    {
+        public StateType state;
+        public string clipName;
+        public float time;
     }
 }

@@ -299,27 +299,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &986158227 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3596748220834623885, guid: 917e00053cb499241a1d42e2b2716532, type: 3}
-  m_PrefabInstance: {fileID: 1531403805}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &986158228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986158227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a93808df3bf1cf4984782b5a3c5c621, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  roateLerp: 0.5
-  lastMoveDirection: {x: 0, y: 0, z: 0}
-  state: 0
 --- !u!1001 &1531403805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375,9 +354,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordWarrior
       objectReference: {fileID: 0}
-    - target: {fileID: 7033455320432561726, guid: 917e00053cb499241a1d42e2b2716532, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 75dcaaf1c2e25a74394c0ce656803257, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 917e00053cb499241a1d42e2b2716532, type: 3}
