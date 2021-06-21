@@ -44,11 +44,15 @@ public class DirectionMove : MonoBehaviour
             , move, roateLerp);
     }
 
+    // 실제 애니메이션 길이보다 먼저 움직이게 하자.
+    public float attackAnimationWaitTime = 0.9f;
     IEnumerator AttackCo()
     {
         state = StateType.Attack;
         animator.Play("Attack");
+        yield return null;
         float attackAnimationTime = GetCurrentAimationTime();
+        attackAnimationTime = attackAnimationTime * attackAnimationWaitTime;
         yield return new WaitForSeconds(attackAnimationTime);
         state = StateType.None;
     }
@@ -56,9 +60,9 @@ public class DirectionMove : MonoBehaviour
     private float GetCurrentAimationTime()
     {
         var state = animator.GetCurrentAnimatorStateInfo(0);
-        float time = state.length * state.speed;
-        return time;
+        return state.length;
     }
+
 
     /// <summary>
     /// Move/Idle애니메이션, 실제 이동
