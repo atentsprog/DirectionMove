@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,14 +12,15 @@ public class DirectionMove : MonoBehaviour
         animator = GetComponent<Animator>();
         lastMoveDirection = transform.forward;
 
-        //aimationLength 초기화.
-        foreach (var animationClip in animator.runtimeAnimatorController.animationClips)
-        {
-            aimationLength[animationClip.name] = animationClip.length; // aimationLength["Attack"] = 1.4;
-        }
+        //애니메이션 길이를 애니메이터에서 가져오자.
+        //// 
+        //foreach (var animationClip in animator.runtimeAnimatorController.animationClips)
+        //{
+        //    aimationLength[animationClip.name] = animationClip.length; // aimationLength["Attack"] = 1.4;
+        //}
     }
 
-    Dictionary<string, float> aimationLength = new Dictionary<string, float>();
+    //Dictionary<string, float> aimationLength = new Dictionary<string, float>();
 
     void Update()
     {
@@ -46,9 +48,16 @@ public class DirectionMove : MonoBehaviour
     {
         state = StateType.Attack;
         animator.Play("Attack");
-        float attackAnimationTime = aimationLength["Attack"];
+        float attackAnimationTime = GetCurrentAimationTime();
         yield return new WaitForSeconds(attackAnimationTime);
         state = StateType.None;
+    }
+
+    private float GetCurrentAimationTime()
+    {
+        var state = animator.GetCurrentAnimatorStateInfo(0);
+        float time = state.length * state.speed;
+        return time;
     }
 
     /// <summary>
